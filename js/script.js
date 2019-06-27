@@ -30,6 +30,7 @@ $(function(){
                         BookName: { type: "string" },
                         BookCategory: { type: "string" },
                         BookAuthor: { type: "string" },
+                        BookPublisher: {type: "string"},
                         BookBoughtDate: { type: "string" }
                     }
                 }
@@ -48,12 +49,21 @@ $(function(){
             { field: "BookName", title: "書籍名稱", width: "50%" },
             { field: "BookCategory", title: "書籍種類", width: "10%" },
             { field: "BookAuthor", title: "作者", width: "15%" },
+            { field: "BookPublisher", title: "出版公司", width: "15%" },
             { field: "BookBoughtDate", title: "購買日期", width: "15%" },
             { command: { text: "刪除", click: deleteBook }, title: " ", width: "120px" }
         ]
         
     });
 })
+    $(".input_window").kendoWindow({
+        title : "新增借閱",
+        height:"550px",
+        width:"450px"
+
+    })
+
+    
 
 function loadBookData(){
     bookDataFromLocalStorage = JSON.parse(localStorage.getItem("bookData"));
@@ -69,30 +79,50 @@ function onChange(){
   
 // 刪除bookdata
 function deleteBook(e){
-    // console.log(e);
-    // 在指定的event中取出需要的資料
+ // console.log(e);
+// 在指定的event中取出需要的資料
     var delete_data = this.dataItem($(e.currentTarget).closest("tr"))
-    // 搜尋整個Bookdata，找出與指定的ID相同並刪除
+// 搜尋整個Bookdata，找出與指定的ID相同並刪除
     for(var i=0; i<bookDataFromLocalStorage.length; i++){
         if(bookDataFromLocalStorage[i].BookId == delete_data.BookId){
             bookDataFromLocalStorage.splice(i,1);
             break;
         }
     }
-    // 更新localStorage & kendoGrid
+// 更新localStorage & kendoGrid
     localStorage["bookData"] = JSON.stringify(bookDataFromLocalStorage);
     $("#book_grid").data("kendoGrid").dataSource.data(bookDataFromLocalStorage)
     }
 
 // 新增視窗
-    const book = (
-        BookId = bookDataFromLocalStorage[bookDataFromLocalStorage-1].BookId+,
-        BookName = $("#book_name").text(),
-        BookCategory = $("#book_category"),
-        BookAuthor = $("#book_author").text(),
-        BookBoughtDate = kendo.toString($("bought_datepicker"),"yyyy-MM-dd")
-    )
-    bookDataFromLocalStorage.add(book);
+$("#create_bt").click(function(e){
+    const book = ({
+        "BookId" :bookDataFromLocalStorage[bookDataFromLocalStorage.length-1].BookId+1,
+        "BookName" : $("#book_name").val(),
+        "BookCategory" : $("#book_category").data("kendoDropDownList").text(),
+        "BookAuthor" : $("#book_author").val(),
+        "BookBoughtDate" : kendo.toString($("#bought_datepicker").data("kendoDatePicker").value(),"yyyy-MM-dd"),
+        "BookPublisher" : $("#book_publisher").val()
+    })
+    bookDataFromLocalStorage.push(book);
+    // 更新localStorage & kendoGrid
+    localStorage["bookData"] = JSON.stringify(bookDataFromLocalStorage);
+    $("#book_grid").data("kendoGrid").dataSource.data(bookDataFromLocalStorage);
+    $(".input_window").data("kendoWindow").close();
+
+    $("#book_name").val("");
+    $("#book_author").val("");
+    $("#book_publisher").val("");
+
+}
+);
+// inputWindow
+$("#input_bt").click(function(){
+    $(".input_window").data("kendoWindow").center();
+    $(".input_window").data("kendoWindow").open();
+})
+   
+
     
 
 

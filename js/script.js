@@ -62,7 +62,7 @@ function loadBookData(){
         localStorage.setItem("bookData",JSON.stringify(bookDataFromLocalStorage));
     }
 }
-
+// 更換圖片
 function onChange(){
     $(".book-image").attr("src", $("#book_category").data("kendoDropDownList").value())
 }
@@ -74,7 +74,7 @@ function deleteBook(e){
     var delete_data = this.dataItem($(e.currentTarget).closest("tr"))
     // 搜尋整個Bookdata，找出與指定的ID相同並刪除
     for(var i=0; i<bookDataFromLocalStorage.length; i++){
-        if(bookDataFromLocalStorage[i].ID == delete_data.BookID){
+        if(bookDataFromLocalStorage[i].BookId == delete_data.BookId){
             bookDataFromLocalStorage.splice(i,1);
             break;
         }
@@ -83,4 +83,17 @@ function deleteBook(e){
     localStorage["bookData"] = JSON.stringify(bookDataFromLocalStorage);
     $("#book_grid").data("kendoGrid").dataSource.data(bookDataFromLocalStorage)
     }
+
+// 新增視窗
+    const book = (
+        BookId = bookDataFromLocalStorage[bookDataFromLocalStorage-1].BookId+,
+        BookName = $("#book_name").text(),
+        BookCategory = $("#book_category"),
+        BookAuthor = $("#book_author").text(),
+        BookBoughtDate = kendo.toString($("bought_datepicker"),"yyyy-MM-dd")
+    )
+    bookDataFromLocalStorage.add(book);
+    
+
+
 

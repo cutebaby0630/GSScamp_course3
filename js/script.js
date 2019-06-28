@@ -8,7 +8,9 @@ $(function(){
         {text:"網際網路",value:"image/internet.jpg"},
         {text:"應用系統整合",value:"image/system.jpg"},
         {text:"家庭保健",value:"image/home.jpg"},
-        {text:"語言",value:"image/language.jpg"}
+        {text:"語言",value:"image/language.jpg"},
+        {text:"行銷",value:"image/sale"},
+        {text:"管理",value:"image/manage.jpg"}
     ]
 
     $("#book_category").kendoDropDownList({
@@ -56,14 +58,13 @@ $(function(){
         
     });
 })
-    $(".input_window").kendoWindow({
+// 視窗的設定
+    $("#input_window").kendoWindow({
         title : "新增借閱",
         height:"550px",
         width:"450px"
 
     })
-
-    
 
 function loadBookData(){
     bookDataFromLocalStorage = JSON.parse(localStorage.getItem("bookData"));
@@ -79,9 +80,9 @@ function onChange(){
   
 // 刪除bookdata
 function deleteBook(e){
- // console.log(e);
 // 在指定的event中取出需要的資料
     var delete_data = this.dataItem($(e.currentTarget).closest("tr"))
+
 // 搜尋整個Bookdata，找出與指定的ID相同並刪除
     for(var i=0; i<bookDataFromLocalStorage.length; i++){
         if(bookDataFromLocalStorage[i].BookId == delete_data.BookId){
@@ -94,7 +95,7 @@ function deleteBook(e){
     $("#book_grid").data("kendoGrid").dataSource.data(bookDataFromLocalStorage)
     }
 
-// 新增視窗
+// 新增資料
 $("#create_bt").click(function(e){
     const book = ({
         "BookId" :bookDataFromLocalStorage[bookDataFromLocalStorage.length-1].BookId+1,
@@ -105,11 +106,12 @@ $("#create_bt").click(function(e){
         "BookPublisher" : $("#book_publisher").val()
     })
     bookDataFromLocalStorage.push(book);
-    // 更新localStorage & kendoGrid
+    
+// 更新localStorage & kendoGrid
     localStorage["bookData"] = JSON.stringify(bookDataFromLocalStorage);
     $("#book_grid").data("kendoGrid").dataSource.data(bookDataFromLocalStorage);
-    $(".input_window").data("kendoWindow").close();
-
+    $("#input_window").data("kendoWindow").close();
+// 新增過後讓欄位空白
     $("#book_name").val("");
     $("#book_author").val("");
     $("#book_publisher").val("");
@@ -118,12 +120,6 @@ $("#create_bt").click(function(e){
 );
 // inputWindow
 $("#input_bt").click(function(){
-    $(".input_window").data("kendoWindow").center();
-    $(".input_window").data("kendoWindow").open();
+    $("#input_window").data("kendoWindow").center();
+    $("#input_window").data("kendoWindow").open();
 })
-   
-
-    
-
-
-

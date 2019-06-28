@@ -62,7 +62,6 @@ $(function(){
         
     });
     $(".book-grid-search").on("input propertychange",function(){ 
-        console.log($(".book-grid-search").val());
         $("#book_grid").data("kendoGrid").dataSource.filter({
             // logic: 'or',
             filters: [

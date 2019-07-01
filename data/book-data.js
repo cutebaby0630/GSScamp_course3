@@ -576,7 +576,7 @@ var bookData = [{
 }
 ,
 {
-    "BookId":71,
+    "BookId":70,
     "BookCategory":"行銷",
     "BookName":"雲端策略",
     "BookAuthor":"陳瀅等著",
@@ -585,7 +585,7 @@ var bookData = [{
 }
 ,
 {
-    "BookId":70,
+    "BookId":71,
     "BookCategory":"行銷",
     "BookName":"雲端運算投資攻略",
     "BookAuthor":"Steve Waterhouse",
